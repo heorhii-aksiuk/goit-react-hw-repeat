@@ -38,20 +38,19 @@
   display: flex;
   justify-content: center;
   height: 75px;
-  margin: 0 auto;
   background-color: var(--card-second-background-color);
   border-top: solid 1px var(--boarder-color);
   border-radius: 0 0 4px 4px;
 }
 
-.list {
+.item {
   display: flex;
   flex-direction: column;
   width: calc(100% / 3);
   text-align: center;
 }
 
-.list:not(:last-child) {
+.item:not(:last-child) {
   border-right: solid 1px var(--boarder-color);
 }
 
