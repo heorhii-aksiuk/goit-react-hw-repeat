@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import 'modern-normalize/modern-normalize.css'
-import './index.css'
+import 'sanitize.css'
+import 'sanitize.css/forms.css'
+import 'sanitize.css/typography.css'
+import './styles/index.css'
 import App from './App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
