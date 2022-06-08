@@ -1,19 +1,36 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 
 export default function App() {
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const handleClick = (e) => {
+    if (e.target.innerText === 'Good') setGood((prev) => prev + 1)
+    if (e.target.innerText === 'Neutral') setNeutral((prev) => prev + 1)
+    if (e.target.innerText === 'Bad') setBad((prev) => prev + 1)
+  }
+
   return (
     <Container>
       <Wrapper>
         <Title>Please leave feedback</Title>
         <List>
           <Item>
-            <Button type="button">Good</Button>
+            <Button onClick={handleClick} type="button">
+              Good
+            </Button>
           </Item>
           <Item>
-            <Button type="button">Neutral</Button>
+            <Button onClick={handleClick} type="button">
+              Neutral
+            </Button>
           </Item>
           <Item>
-            <Button type="button">Bad</Button>
+            <Button onClick={handleClick} type="button">
+              Bad
+            </Button>
           </Item>
         </List>
         <Title>Statistic</Title>
@@ -21,19 +38,19 @@ export default function App() {
           <Item>
             <StatisticCell>
               <CellTitle>Good:</CellTitle>
-              <CellData>99</CellData>
+              <CellData>{good}</CellData>
             </StatisticCell>
           </Item>
           <Item>
             <StatisticCell>
               <CellTitle>Neutral:</CellTitle>
-              <CellData>99</CellData>
+              <CellData>{neutral}</CellData>
             </StatisticCell>
           </Item>
           <Item>
             <StatisticCell>
               <CellTitle>Bad:</CellTitle>
-              <CellData>99</CellData>
+              <CellData>{bad}</CellData>
             </StatisticCell>
           </Item>
         </List>
