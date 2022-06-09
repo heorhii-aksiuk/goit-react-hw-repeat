@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import Section from '../Section/Section'
 import FeedbackOptions from '../FeedbackOptions/FeedbackOptions'
 import Statistics from '../Statistics/Statistics'
-import Section from '../Section/Section'
+import Notification from '../Notification/Notification'
 
 function App() {
   const [feedback, setFeedback] = useState({ good: 0, neutral: 0, bad: 0 })
@@ -15,8 +16,7 @@ function App() {
   }
 
   const totalFeedback = good + neutral + bad
-
-  const positiveFeedbackPercentage = () =>
+  const positivePercentage =
     good > 0 ? Math.round((good * 100) / totalFeedback) : 0
 
   return (
@@ -25,13 +25,17 @@ function App() {
         <FeedbackOptions onLeaveFeedback={handleIncrement} />
       </Section>
       <Section title="Statistics">
-        <Statistics
-          good={good}
-          neutral={neutral}
-          bad={bad}
-          total={totalFeedback}
-          positivePercentage={positiveFeedbackPercentage}
-        />
+        {totalFeedback > 0 ? (
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={totalFeedback}
+            positivePercentage={positivePercentage}
+          />
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
       </Section>
     </>
   )

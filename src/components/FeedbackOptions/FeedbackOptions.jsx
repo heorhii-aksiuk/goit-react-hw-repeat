@@ -25,7 +25,7 @@ function FeedbackOptions({ onLeaveFeedback }) {
 export default FeedbackOptions
 
 const List = styled.ul`
-  padding-bottom: 20px;
+  padding-bottom: 5px;
   display: flex;
   justify-content: center;
 `

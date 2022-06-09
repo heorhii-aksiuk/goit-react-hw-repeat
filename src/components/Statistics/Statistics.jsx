@@ -25,7 +25,7 @@ function Statistics({ good, neutral, bad, total, positivePercentage }) {
       </List>
       <TotalWrapper>
         <p>Total: {total}</p>
-        {total > 0 && <p>Positive feedback: {positivePercentage()}%</p>}
+        {total > 0 && <p>Positive feedback: {positivePercentage}%</p>}
       </TotalWrapper>
     </>
   )
