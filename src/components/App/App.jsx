@@ -29,7 +29,7 @@ function App() {
   return (
     <>
       <Section title="Phonebook">
-        <ContactForm getContact={handleSubmit}></ContactForm>
+        <ContactForm onSubmitForm={handleSubmit}></ContactForm>
       </Section>
       <Section title="Contacts">
         <Contacts

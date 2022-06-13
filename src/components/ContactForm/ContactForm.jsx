@@ -1,15 +1,23 @@
-import React from 'react'
 import { useState } from 'react'
 
-function ContactForm({ getContact }) {
-  const [newContact, setNewContact] = useState({ name: '', number: '' })
+function ContactForm({ onSubmitForm }) {
+  const [name, setName] = useState('')
+  const [number, setNumber] = useState('')
+
+  const handleChange = (e) => {
+    if (e.target.name === 'name') setName(e.target.value)
+    if (e.target.name === 'number') setNumber(e.target.value)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const name = e.target.name.value
-    const number = e.target.number.value
-    setNewContact({ name, number })
-    getContact({ name, number })
+    onSubmitForm({ name, number })
+    resetForm()
+  }
+
+  const resetForm = () => {
+    setName('')
+    setNumber('')
   }
 
   return (
@@ -17,6 +25,8 @@ function ContactForm({ getContact }) {
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
+          value={name}
+          onChange={handleChange}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -25,6 +35,8 @@ function ContactForm({ getContact }) {
         />
         <label htmlFor="number">Number</label>
         <input
+          value={number}
+          onChange={handleChange}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
