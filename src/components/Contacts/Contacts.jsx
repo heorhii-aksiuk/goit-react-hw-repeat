@@ -1,12 +1,12 @@
 import React from 'react'
 
-function Contacts({ remove, getFilter, contacts }) {
+function Contacts({ onRemoveClick, onFilterChange, contacts }) {
   const handleFilter = (e) => {
-    getFilter(e.target.value)
+    onFilterChange(e.target.value)
   }
 
   const handleDelete = (e) => {
-    remove(e.target.name)
+    onRemoveClick(e.target.name)
   }
 
   return (

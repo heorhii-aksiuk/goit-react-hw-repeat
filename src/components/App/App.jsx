@@ -11,7 +11,7 @@ function App() {
     if (contacts.some((el) => el.name === contact.name)) {
       return alert(`${contact.name} is already exists!`)
     }
-    setContacts([...contacts, contact])
+    setContacts([contact, ...contacts])
   }
 
   const handleFilter = (newFilter) => {
@@ -33,9 +33,9 @@ function App() {
       </Section>
       <Section title="Contacts">
         <Contacts
-          getFilter={handleFilter}
+          onFilterChange={handleFilter}
           contacts={filteredContacts}
-          remove={handleRemove}
+          onRemoveClick={handleRemove}
         ></Contacts>
       </Section>
     </>
