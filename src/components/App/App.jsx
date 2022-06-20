@@ -1,41 +1,42 @@
-import { useState } from 'react'
 import Section from '../Section/Section'
-import FeedbackOptions from '../FeedbackOptions/FeedbackOptions'
-import Statistics from '../Statistics/Statistics'
-import Notification from '../Notification/Notification'
+import ContactForm from '../ContactForm/ContactForm'
+import Contacts from '../Contacts/Contacts'
+import { useState } from 'react'
 
 function App() {
-  const [feedback, setFeedback] = useState({ good: 0, neutral: 0, bad: 0 })
-  const { good, neutral, bad } = feedback
+  const [contacts, setContacts] = useState([])
+  const [filter, setFilter] = useState('')
 
-  const handleIncrement = (e) => {
-    const feedbackType = e.target.name
-    setFeedback((prev) => {
-      return { ...prev, [feedbackType]: prev[feedbackType] + 1 }
-    })
+  const handleSubmit = (contact) => {
+    if (contacts.some((el) => el.name === contact.name)) {
+      return alert(`${contact.name} is already exists!`)
+    }
+    setContacts([contact, ...contacts])
   }
 
-  const totalFeedback = good + neutral + bad
-  const positivePercentage =
-    good > 0 ? Math.round((good * 100) / totalFeedback) : 0
+  const handleFilter = (newFilter) => {
+    setFilter(newFilter)
+  }
+
+  const handleRemove = (contact) => {
+    setContacts(contacts.filter((el) => el.name !== contact))
+  }
+
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.includes(filter),
+  )
 
   return (
     <>
-      <Section title="Please leave feedback">
-        <FeedbackOptions onLeaveFeedback={handleIncrement} />
+      <Section title="Phonebook">
+        <ContactForm onSubmitForm={handleSubmit}></ContactForm>
       </Section>
-      <Section title="Statistics">
-        {totalFeedback > 0 ? (
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={totalFeedback}
-            positivePercentage={positivePercentage}
-          />
-        ) : (
-          <Notification message="There is no feedback" />
-        )}
+      <Section title="Contacts">
+        <Contacts
+          onFilterChange={handleFilter}
+          contacts={filteredContacts}
+          onRemoveClick={handleRemove}
+        ></Contacts>
       </Section>
     </>
   )
