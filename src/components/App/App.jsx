@@ -1,45 +1,59 @@
+import { Component } from 'react'
 import Section from '../Section/Section'
 import ContactForm from '../ContactForm/ContactForm'
 import Contacts from '../Contacts/Contacts'
-import { useState } from 'react'
 
-function App() {
-  const [contacts, setContacts] = useState([])
-  const [filter, setFilter] = useState('')
+class App extends Component {
+  state = {
+    contacts: [],
+    filter: '',
+  }
 
-  const handleSubmit = (contact) => {
+  handleSubmit = (contact) => {
+    // TODO: Can add two same contacts
+    const { contacts } = this.state
     if (contacts.some((el) => el.name === contact.name)) {
       return alert(`${contact.name} is already exists!`)
     }
-    setContacts([contact, ...contacts])
+    this.setState((state) => ({
+      contacts: [contact, ...state.contacts],
+    }))
   }
 
-  const handleFilter = (newFilter) => {
-    setFilter(newFilter)
+  handleFilter = (e) => {
+    const newFilter = e.target.value
+    this.setState({ filter: newFilter })
   }
 
-  const handleRemove = (contact) => {
-    setContacts(contacts.filter((el) => el.name !== contact))
+  handleRemove = (contact) => {
+    const { contacts } = this.state
+    this.setState({
+      contacts: contacts.filter((el) => el.name !== contact),
+    })
   }
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.includes(filter),
-  )
+  render() {
+    const { contacts, filter } = this.state
 
-  return (
-    <>
-      <Section title="Phonebook">
-        <ContactForm onSubmitForm={handleSubmit}></ContactForm>
-      </Section>
-      <Section title="Contacts">
-        <Contacts
-          onFilterChange={handleFilter}
-          contacts={filteredContacts}
-          onRemoveClick={handleRemove}
-        ></Contacts>
-      </Section>
-    </>
-  )
+    const filteredContacts = contacts.filter((contact) =>
+      contact.name.includes(filter),
+    )
+
+    return (
+      <>
+        <Section title="Phonebook">
+          <ContactForm onSubmitForm={this.handleSubmit}></ContactForm>
+        </Section>
+        <Section title="Contacts">
+          <Contacts
+            onFilterChange={this.handleFilter}
+            contacts={filteredContacts}
+            onRemoveClick={this.handleRemove}
+          ></Contacts>
+        </Section>
+      </>
+    )
+  }
 }
 
 export default App

@@ -1,13 +1,18 @@
+import React, { Component } from 'react'
 import styled from 'styled-components'
-function Section({ title, children }) {
-  return (
-    <Container>
-      <Wrapper>
-        <Title>{title}</Title>
-        {children}
-      </Wrapper>
-    </Container>
-  )
+
+class Section extends Component {
+  render() {
+    const { title, children } = this.props
+    return (
+      <Container>
+        <Wrapper>
+          <Title>{title}</Title>
+          {children}
+        </Wrapper>
+      </Container>
+    )
+  }
 }
 
 export default Section
