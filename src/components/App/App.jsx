@@ -10,7 +10,6 @@ class App extends Component {
   }
 
   handleSubmit = (contact) => {
-    // TODO: Can add two same contacts
     const { contacts } = this.state
     if (contacts.some((el) => el.name === contact.name)) {
       return alert(`${contact.name} is already exists!`)
