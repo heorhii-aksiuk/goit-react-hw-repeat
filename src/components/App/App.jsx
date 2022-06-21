@@ -9,6 +9,27 @@ class App extends Component {
     filter: '',
   }
 
+  componentDidMount() {
+    try {
+      const savedContacts = JSON.parse(localStorage.getItem('contacts'))
+      const condition =
+        Array.isArray(savedContacts) &&
+        savedContacts.every((el) => el.name && el.number)
+
+      if (condition) {
+        this.setState({ contacts: [...savedContacts] })
+      }
+    } catch (error) {
+      console.error('components/App>componentDidMount():', error.message)
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
+
   handleSubmit = (contact) => {
     const { contacts } = this.state
     if (contacts.some((el) => el.name === contact.name)) {
@@ -20,22 +41,22 @@ class App extends Component {
   }
 
   handleFilter = (e) => {
-    const newFilter = e.target.value
-    this.setState({ filter: newFilter })
+    const filter = e.target.value
+    this.setState({ filter })
   }
 
-  handleRemove = (contact) => {
+  handleRemove = (name) => {
     const { contacts } = this.state
     this.setState({
-      contacts: contacts.filter((el) => el.name !== contact),
+      contacts: contacts.filter((el) => el.name !== name),
     })
   }
 
   render() {
     const { contacts, filter } = this.state
-
+    const normalizeFilter = filter.toLowerCase()
     const filteredContacts = contacts.filter((contact) =>
-      contact.name.includes(filter),
+      contact.name.toLowerCase().includes(normalizeFilter),
     )
 
     return (
