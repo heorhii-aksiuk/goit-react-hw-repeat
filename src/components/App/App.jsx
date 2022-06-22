@@ -20,7 +20,10 @@ class App extends Component {
         this.setState({ contacts: [...savedContacts] })
       }
     } catch (error) {
-      console.error('components/App>componentDidMount():', error.message)
+      console.error(
+        `Can't parse"contacts" field from localStorage, so it's reset!`,
+        localStorage.setItem('contacts', JSON.stringify(this.state.contacts)),
+      )
     }
   }
 
