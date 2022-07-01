@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import SearchBar from './components/SearchBar/SearchBar'
 
+const test = process.env.REACT_APP_PIXABAY_API_KEY
+
 class App extends Component {
   render() {
+    console.log(test)
     return (
       <Container>
         <SearchBar />
