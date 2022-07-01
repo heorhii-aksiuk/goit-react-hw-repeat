@@ -2,14 +2,24 @@ import React, { Component } from 'react'
 import { nanoid } from 'nanoid'
 import styled from 'styled-components'
 
+const INPUT = {
+  NAME: {
+    PATTERN: "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$",
+    TITLE:
+      'Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles Miller',
+  },
+  NUMBER: {
+    PATTERN: '+?d{1,4}?[-.s]?(?d{1,3}?)?[-.s]?d{1,4}[-.s]?d{1,4}[-.s]?d{1,9}',
+    TITLE:
+      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +',
+  },
+}
+
 class ContactForm extends Component {
   state = {
     name: '',
     number: '',
   }
-
-  inputNameId = nanoid(5)
-  inputNumberId = nanoid(5)
 
   handleChange = (e) => {
     const { name, value } = e.target
@@ -23,6 +33,9 @@ class ContactForm extends Component {
     this.setState({ name: '', number: '' })
   }
 
+  inputNameId = nanoid(5)
+  inputNumberId = nanoid(5)
+
   render() {
     const { name, number } = this.state
     return (
@@ -35,8 +48,8 @@ class ContactForm extends Component {
             type="text"
             name="name"
             id={this.inputNameId}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles Miller"
+            pattern={INPUT.NAME.PATTERN}
+            title={INPUT.NAME.TITLE}
             required
           />
           <label htmlFor={this.inputNumberId}>Number</label>
@@ -46,8 +59,8 @@ class ContactForm extends Component {
             type="tel"
             name="number"
             id={this.inputNumberId}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            pattern={INPUT.NUMBER.PATTERN}
+            title={INPUT.NUMBER.TITLE}
             required
           />
           <Button type="submit">Add contact</Button>
