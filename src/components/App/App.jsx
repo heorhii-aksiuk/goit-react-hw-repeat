@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import Section from '../Section/Section'
 import ContactForm from '../ContactForm/ContactForm'
-import Contacts from '../Contacts/Contacts'
+import ContactList from '../ContactList/ContactList'
 
 const LS_CONTACTS_KEY = 'contacts'
 const LS_PARSE_ERROR_MESSAGE = `Can't parse "contacts" field from localStorage, so it's reset!`
@@ -75,11 +75,11 @@ class App extends Component {
           <ContactForm onSubmitForm={this.handleSubmit}></ContactForm>
         </Section>
         <Section title="Contacts">
-          <Contacts
+          <ContactList
             onFilterChange={this.handleFilter}
             contacts={filteredContacts}
-            onRemoveClick={this.handleRemove}
-          ></Contacts>
+            removeContact={this.handleRemove}
+          ></ContactList>
         </Section>
       </>
     )
