@@ -3,6 +3,10 @@ import Section from '../Section/Section'
 import ContactForm from '../ContactForm/ContactForm'
 import Contacts from '../Contacts/Contacts'
 
+const LS_CONTACTS_KEY = 'contacts'
+const LS_PARSE_ERROR_MESSAGE = `Can't parse "contacts" field from localStorage, so it's reset!`
+const ALERT_MESSAGE = (name) => `${name} is already exists!`
+
 class App extends Component {
   state = {
     contacts: [],
@@ -11,7 +15,7 @@ class App extends Component {
 
   componentDidMount() {
     try {
-      const savedContacts = JSON.parse(localStorage.getItem('contacts'))
+      const savedContacts = JSON.parse(localStorage.getItem(LS_CONTACTS_KEY))
       const condition =
         Array.isArray(savedContacts) &&
         savedContacts.every((el) => el.name && el.number)
@@ -21,22 +25,25 @@ class App extends Component {
       }
     } catch (error) {
       console.error(
-        `Can't parse"contacts" field from localStorage, so it's reset!`,
-        localStorage.setItem('contacts', JSON.stringify(this.state.contacts)),
+        LS_PARSE_ERROR_MESSAGE,
+        localStorage.setItem(
+          LS_CONTACTS_KEY,
+          JSON.stringify(this.state.contacts),
+        ),
       )
     }
   }
 
   componentDidUpdate(prevState) {
     if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+      localStorage.setItem(LS_CONTACTS_KEY, JSON.stringify(this.state.contacts))
     }
   }
 
   handleSubmit = (contact) => {
     const { contacts } = this.state
     if (contacts.some((el) => el.name === contact.name)) {
-      return alert(`${contact.name} is already exists!`)
+      return alert(ALERT_MESSAGE(contact.name))
     }
     this.setState((state) => ({
       contacts: [contact, ...state.contacts],
