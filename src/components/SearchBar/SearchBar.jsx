@@ -3,14 +3,35 @@ import { ReactComponent as SearchIcon } from '../../icons/search.svg'
 import styled from 'styled-components'
 
 class SearchBar extends Component {
+  state = { value: '' }
+
+  handleChange = (event) => {
+    const { value } = event.target
+    this.setState({ value })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    const { value } = this.state
+    const { getSearchValue } = this.props
+
+    if (value.trim() === '') return //TODO: add toast
+
+    getSearchValue(value)
+    this.setState({ value: '' })
+  }
+
   render() {
+    const { value } = this.state
     return (
       <Header>
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <Button type="submit">
             <SearchIcon width="24px" height="24px" />
           </Button>
           <Input
+            onChange={this.handleChange}
+            value={value}
             type="text"
             autocomplete="off"
             autoFocus
