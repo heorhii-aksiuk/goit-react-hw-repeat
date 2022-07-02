@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { ReactComponent as SearchIcon } from '../../icons/search.svg'
 import styled from 'styled-components'
+import { toast } from 'react-toastify'
+import { ReactComponent as SearchIcon } from '../../icons/search.svg'
 
-class SearchBar extends Component {
+const INPUT = {
+  PLACEHOLDER: 'Search images and photos',
+  EMPTY_MESSAGE: 'Field can not be empty!',
+}
+
+export default class SearchBar extends Component {
   state = { value: '' }
 
   handleChange = (event) => {
@@ -15,8 +21,10 @@ class SearchBar extends Component {
     const { value } = this.state
     const { getSearchValue } = this.props
 
-    if (value.trim() === '') return //TODO: add toast
-
+    if (value.trim() === '') {
+      toast.error(INPUT.EMPTY_MESSAGE)
+      return
+    }
     getSearchValue(value)
     this.setState({ value: '' })
   }
@@ -35,15 +43,13 @@ class SearchBar extends Component {
             type="text"
             autocomplete="off"
             autoFocus
-            placeholder="Search images and photos"
+            placeholder={INPUT.PLACEHOLDER}
           />
         </Form>
       </Header>
     )
   }
 }
-
-export default SearchBar
 
 const Header = styled.header`
   top: 0;
