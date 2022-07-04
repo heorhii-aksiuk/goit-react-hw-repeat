@@ -1,13 +1,31 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Modal from '../Modal/Modal'
 
 class ImageGalleryItem extends Component {
+  state = {
+    showModal: false,
+  }
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({ showModal: !showModal }))
+  }
+
   render() {
     const { webformatURL, largeImageURL, tags } = this.props.item
+    const { showModal } = this.state
+
     return (
-      <Item>
-        <Image src={webformatURL} alt={tags} />
-      </Item>
+      <>
+        <Item>
+          <Image onClick={this.toggleModal} src={webformatURL} alt={tags} />
+        </Item>
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <img src={largeImageURL} alt={tags} />
+          </Modal>
+        )}
+      </>
     )
   }
 }

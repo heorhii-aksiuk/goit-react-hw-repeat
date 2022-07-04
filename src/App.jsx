@@ -47,7 +47,7 @@ export default class App extends Component {
         <GlobalStyle />
         <AppContainer>
           <SearchBar getSearchValue={this.setQuery} />
-          <ImageGallery items={data} />
+          {data && <ImageGallery items={data} />}
         </AppContainer>
         <ToastContainer />
       </>
