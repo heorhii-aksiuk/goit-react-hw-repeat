@@ -5,6 +5,7 @@ import apiRequest from './services/api'
 import styled from 'styled-components'
 import GlobalStyle from './theme/globalStyle'
 import SearchBar from './components/SearchBar/SearchBar'
+import ImageGallery from './components/ImageGallery/ImageGallery'
 
 const ERROR_MESSAGE =
   'Oops, something went wrong :( Please, reset page or try later'
@@ -40,11 +41,13 @@ export default class App extends Component {
   }
 
   render() {
+    const { data } = this.state
     return (
       <>
         <GlobalStyle />
         <AppContainer>
           <SearchBar getSearchValue={this.setQuery} />
+          {data && <ImageGallery items={data} />}
         </AppContainer>
         <ToastContainer />
       </>

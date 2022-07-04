@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem'
 
 class ImageGallery extends Component {
   render() {
-    return <List>ImageGallery</List>
+    const { items } = this.props
+    return (
+      <List>
+        {items.map((item) => (
+          <ImageGalleryItem key={item.id} item={item} />
+        ))}
+      </List>
+    )
   }
 }
 

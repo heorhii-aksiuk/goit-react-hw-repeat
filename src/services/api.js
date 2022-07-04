@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://pixabay.com/api/?'
+axios.defaults.baseURL = 'https://pixabay.com/api'
 const API_KEY = process.env.REACT_APP_PIXABAY_API_KEY
 
 const apiRequest = async (query, page = '1') => {
@@ -13,7 +13,7 @@ const apiRequest = async (query, page = '1') => {
     key: API_KEY,
   })
 
-  const requestString = searchParams.toString()
+  const requestString = '/?' + searchParams
   const response = await axios.get(requestString)
   return response
 }
