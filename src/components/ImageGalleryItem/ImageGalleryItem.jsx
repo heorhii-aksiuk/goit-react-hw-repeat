@@ -3,9 +3,10 @@ import styled from 'styled-components'
 
 class ImageGalleryItem extends Component {
   render() {
+    const { webformatURL, largeImageURL, tags } = this.props.item
     return (
       <Item>
-        <Image src="" alt="" />
+        <Image src={webformatURL} alt={tags} />
       </Item>
     )
   }
