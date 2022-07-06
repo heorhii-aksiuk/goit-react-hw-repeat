@@ -19,13 +19,13 @@ export default class SearchBar extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     const { value } = this.state
-    const { getSearchValue } = this.props
+    const { onSubmit } = this.props
 
     if (value.trim() === '') {
       toast.error(INPUT.EMPTY_MESSAGE)
       return
     }
-    getSearchValue(value)
+    onSubmit(value.toLowerCase())
     this.setState({ value: '' })
   }
 

@@ -4,6 +4,11 @@ import styled from 'styled-components'
 
 const modalRoot = document.getElementById('modal-root')
 
+const EXIT_HELP = {
+  OVERLAY: 'Click to exit',
+  BOX: 'Double click to exit',
+}
+
 export class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown)
@@ -29,8 +34,10 @@ export class Modal extends Component {
 
   render() {
     return createPortal(
-      <Overlay onClick={this.handleClick}>
-        <Box>{this.props.children}</Box>
+      <Overlay onClick={this.handleClick} title={EXIT_HELP.OVERLAY}>
+        <Box onDoubleClick={this.props.onClose} title={EXIT_HELP.BOX}>
+          {this.props.children}
+        </Box>
       </Overlay>,
       modalRoot,
     )

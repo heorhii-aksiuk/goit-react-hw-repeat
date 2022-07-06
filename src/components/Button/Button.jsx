@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 const Button = styled.button`
+  margin: 0 auto;
+  width: 40px;
   padding: 8px 16px;
   border-radius: 2px;
   background-color: #3f51b5;
@@ -23,6 +25,10 @@ const Button = styled.button`
   :hover,
   :focus {
     background-color: #303f9f;
+  }
+
+  :active {
+    background-color: #1c2769;
   }
 `
 
