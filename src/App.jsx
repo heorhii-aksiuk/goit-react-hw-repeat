@@ -1,55 +1,110 @@
 import React, { Component } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
-
-import apiRequest from './services/api'
 import styled from 'styled-components'
+import { ToastContainer, toast } from 'react-toastify'
+import apiRequest from './services/api'
 import GlobalStyle from './theme/globalStyle'
 import SearchBar from './components/SearchBar/SearchBar'
 import ImageGallery from './components/ImageGallery/ImageGallery'
+import Button from './components/Button/Button'
+import Loader from './components/Loader/Loader'
 
-const ERROR_MESSAGE =
-  'Oops, something went wrong :( Please, reset page or try later'
+const MESSAGE = {
+  ERROR: 'Oops, something went wrong :( Please, reset page or try later',
+  NOTHING_FOUND: 'Nothing found on your request :(',
+}
+
+const PER_PAGE = 12
+const FIRST_PAGE = 1
 
 export default class App extends Component {
   state = {
     query: null,
+    page: FIRST_PAGE,
     data: [],
+    loading: false,
   }
 
-  async componentDidUpdate(_, prevState) {
-    const { query } = this.state
-    const prevQuery = prevState.query
+  totalPages = 0
 
-    if (query === prevQuery) return
+  async componentDidUpdate(_, prevState) {
+    const { query, page } = this.state
+    let pageRequest
+    const newQuery = query !== prevState.query
+    const nextPage = page > prevState.page
+
+    if (!newQuery && !nextPage) return
+    if (newQuery) {
+      pageRequest = FIRST_PAGE
+    }
+    if (nextPage) {
+      pageRequest = page
+    }
+
+    this.setState({ loading: true })
 
     try {
-      const response = await apiRequest(query)
+      const response = await apiRequest(query, PER_PAGE, pageRequest)
 
       if (response.status !== 200) {
-        throw new Error(ERROR_MESSAGE)
+        throw new Error(MESSAGE.ERROR)
       }
-      const data = response.data.hits
-      this.setState({ data })
+
+      const data = response?.data?.hits
+
+      if (data?.length < 1) {
+        toast.info(MESSAGE.NOTHING_FOUND)
+      }
+
+      const totalHits = response?.data?.totalHits
+      this.totalPages = Math.ceil(totalHits / PER_PAGE)
+
+      if (newQuery) {
+        this.setState({ page: FIRST_PAGE, data })
+        window.scrollTo(0, 0)
+      }
+
+      if (nextPage) {
+        this.setState((state) => ({
+          data: [...state.data, ...data],
+        }))
+      }
     } catch (error) {
       toast.error(error.message)
       console.error(error.message)
+    } finally {
+      this.setState({ loading: false })
     }
   }
 
-  setQuery = (value) => {
-    this.setState({ query: value })
+  setQuery = (query) => {
+    this.setState({ query })
+  }
+
+  loadMore = () => {
+    this.setState((state) => ({
+      page: state.page + 1,
+    }))
   }
 
   render() {
-    const { data } = this.state
+    const { loading, data, page } = this.state
+    const hasData = data?.length > 0
+    const hasNextPage = this.totalPages > page
+
     return (
       <>
         <GlobalStyle />
         <AppContainer>
-          <SearchBar getSearchValue={this.setQuery} />
-          {data && <ImageGallery items={data} />}
+          <SearchBar onSubmit={this.setQuery} />
+          {hasData && <ImageGallery items={data} />}
+          {hasNextPage && (
+            <Button onClick={this.loadMore}>
+              {loading ? 'Loading...' : 'Load more'}
+            </Button>
+          )}
         </AppContainer>
-        <ToastContainer />
+        {loading && <Loader />}
+        <ToastContainer autoClose={2500} limit={1} />
       </>
     )
   }

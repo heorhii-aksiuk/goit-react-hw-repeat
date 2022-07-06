@@ -3,6 +3,7 @@ import 'sanitize.css'
 import 'sanitize.css/forms.css'
 import 'sanitize.css/typography.css'
 import 'react-toastify/dist/ReactToastify.min.css'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 const GlobalStyle = createGlobalStyle`
 h1,
