@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "0.27.2",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-loader-spinner": "5.1.5",
+    "nanoid": "4.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-scripts": "5.0.1",
     "react-toastify": "9.0.5",
     "sanitize.css": "13.0.0",
