@@ -1,2 +1,2 @@
-# goit-react-hw-repeat
+# react-practice
 Just some practice. React
